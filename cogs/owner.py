@@ -1,0 +1,91 @@
+import discord
+from discord import app_commands, ui
+from discord.ext import commands
+from cogs import utils
+
+import sys
+import requests
+import io
+import cogs
+from aioconsole import aexec
+from asyncio import sleep
+from datetime import datetime
+
+class Owner(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.lasteval = "-s ```py\nawait ctx.send('Nothing to eval!')```"
+
+    @commands.command()
+    @commands.is_owner()
+    async def sync(self, ctx):
+        await utils.sync_commands(self.bot, utils.config)
+
+    @commands.command(aliases=['snow'])
+    @commands.is_owner()
+    async def setSnowflake(self, ctx, snowflakeID, snowflakeValue: int):
+        await ctx.message.delete()
+        conf = utils.config
+        conf[snowflakeID] = snowflakeValue
+        utils.set_config(conf)
+
+    @commands.command()
+    @commands.is_owner()
+    async def reval(self, ctx):
+        code = self.lasteval
+        if ctx.message.reference: code = await ctx.channel.fetch_message(ctx.message.reference.message_id).content[6:]
+        await self.eval.callback(self, ctx, code=code)
+
+    @commands.command()
+    @commands.is_owner()
+    async def r(self, ctx, cog: str = "owner"):
+        await ctx.message.delete()
+        try: await self.bot.reload_extension("cogs." + cog)
+        except: await ctx.send("Failure reloading cog `" + cog + "`", delete_after=5)
+
+    @commands.command()
+    @commands.is_owner()
+    async def nv(self, ctx):
+        await ctx.message.delete()
+        message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+        await message.edit(view=None)
+
+    @commands.command()
+    @commands.is_owner()
+    async def purge(self, ctx, amount: int):
+        await ctx.message.delete()
+        await ctx.channel.purge(limit=int(amount))
+
+    @commands.command()
+    @commands.is_owner()
+    async def eval(self, ctx, *, code: str):
+        self.lasteval = code
+        out, err = io.StringIO(), io.StringIO()
+        silence = False
+        if code.startswith('-s'):
+            silence = True
+            code = code[3:]
+            await ctx.message.delete()
+        code = code[:-3]
+        code = code[5:]
+        args = {
+            "discord": discord,
+            "ui": ui,
+            "ctx": ctx,
+            "self": self,
+            "cogs": cogs,
+            "presets": cogs.embeds.presets,
+            "sleep": sleep,
+            "requests": requests,
+            "datetime": datetime
+        }
+        sys.stdout = out
+        sys.stderr = err
+        await aexec(code, args) # main exec process
+        results = out.getvalue()
+        errors = err.getvalue()
+        if not silence:
+            pass#await ctx.send(f"```py\n{results}```{('```Errors: ' + errors + '```') if errors != '' else ''}")
+
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(Owner(bot))

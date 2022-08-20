@@ -2,9 +2,18 @@ import discord
 from discord.ext import commands
 from cogs.utils import debug
 
+from cogs.tickets import Tickets
+
 class Listeners(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_interaction(self, interaction):
+        if interaction.data['custom_id'] == 'presets:trash':
+            await interaction.message.delete()
+        elif interaction.data['custom_id'].startswith('bot::tickets'):
+            await Tickets.event_callback(interaction)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):

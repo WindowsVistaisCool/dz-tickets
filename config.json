@@ -1,30 +1,43 @@
 {
-    "ownerIDs": [],
-    "slashGuildID": null,
-    "doAutomaticSync": true,
+    "ownerIDs": [
+        406629388059410434
+    ],
+    "slashGuildID": 904021473147101234,
+    "doAutomaticSync": false,
     "loadedCogs": [
         "cogs.listeners",
-        "cogs.testing"
+        "cogs.owner",
+        "cogs.tickets"
     ],
     "rtInit": {},
-    "prefix": "=",
+    "snowflakes": {
+        "ticketsCategory": 1010646988108341328
+    },
+    "ticketNum": 1,
+    "blacklist": [],
+    "ticketCategories": {
+        "discord": [
+            "Discord Support",
+            "<:1_:1010654110644699167>"
+        ],
+        "applications": [
+            "Applications Support",
+            "<:1_:1010654110644699167>"
+        ],
+        "guild": [
+            "Guild support",
+            "\ud83d\udcdc"
+        ]
+    },
+    "prefix": "t-",
     "activity": {
-        "type": "none",
-        "name": "",
+        "type": "watching",
+        "name": "for tickets",
         "status": "online",
         "streamURL": ""
     },
     "debug": {
         "enabled": false
     },
-    "cogChecks": {
-        "sample": {
-            "roles": [],
-            "users": [],
-            "flags": [
-                "debug",
-                "alwaysFalse"
-            ]
-        }
-    }
+    "cogChecks": {}
 }

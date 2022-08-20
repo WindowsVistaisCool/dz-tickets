@@ -1,4 +1,5 @@
-from discord import Embed
+from discord import Embed, Color
+from datetime import datetime
 from typing import Optional
 
 class EmbedParser:
@@ -24,3 +25,12 @@ class EmbedParser:
         for field in data['fields']:
             embed.add_field(name=field[0], value=field[1], inline=bool(field[2]) if len(field) > 1 else False)
         return embed
+
+class presets:
+    @staticmethod
+    def help_categories() -> Embed:
+        e = Embed(title="Category Modification", description="Use subcommands to modify categories for creating tickets. Remeber to run `t-show` to re-show the creation menu.", color=Color.blurple())
+        e.add_field(name='`t-cat list`', value="Lists all categories", inline=False)
+        e.add_field(name="`t-cat add <id> <emoji> {name}`", value="Add a new category to the list of categories. This command can also be used to modifiy existing entries.\nExample: `t-cat add discord `🤖` Discord Help`", inline=False)
+        e.add_field(name="`t-cat remove <id>`", value="Remove a category from the list of categories.\nExample: `t-cat remove discord`", inline=False)
+        return e
