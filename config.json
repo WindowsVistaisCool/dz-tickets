@@ -1,6 +1,7 @@
 {
     "ownerIDs": [
-        406629388059410434
+        406629388059410434,
+        586657153301872653
     ],
     "slashGuildID": 904021473147101234,
     "doAutomaticSync": false,
@@ -11,9 +12,11 @@
     ],
     "rtInit": {},
     "snowflakes": {
-        "ticketsCategory": 1010646988108341328
+        "ticketsCategory": 1010646988108341328,
+        "staffRole": 904021882834124841
     },
-    "ticketNum": 1,
+    "ticketNum": 2,
+    "ticketMsg": "Thanks for creating a ticket! Our @Staff will be with you shortly.",
     "blacklist": [],
     "ticketCategories": {
         "discord": [

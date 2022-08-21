@@ -34,3 +34,9 @@ class presets:
         e.add_field(name="`t-cat add <id> <emoji> {name}`", value="Add a new category to the list of categories. This command can also be used to modifiy existing entries.\nExample: `t-cat add discord `🤖` Discord Help`", inline=False)
         e.add_field(name="`t-cat remove <id>`", value="Remove a category from the list of categories.\nExample: `t-cat remove discord`", inline=False)
         return e
+    
+    @staticmethod
+    def help_settings() -> Embed:
+        e = Embed(title="Ticket Settings", description="Use subcommands to change settings with tickets.", color=Color.blurple())
+        e.add_field(name='`t-settings msg {msg}', description="Set ticket message (when created)", inline=False)
+        return e
